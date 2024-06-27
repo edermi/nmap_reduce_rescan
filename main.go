@@ -34,7 +34,9 @@ func main() {
 		}
 		if len(ports) > 0 {
 			portListStr := strings.Join(ports, ",")
-
+			if !strings.ContainsAny(*host.Hostnames.Hostname.Name, ".:") { // Ghetto check: omit NetBIOS names and stuff but keep IPv6
+				continue
+			}
 			if host.Hostnames.Hostname.Name != nil && !hostnameEmpty(*host.Hostnames.Hostname.Name) {
 				fmt.Printf(nmap_template, portListStr, fmt.Sprintf(name_template, *host.Hostnames.Hostname.Name), *host.Hostnames.Hostname.Name)
 			}
